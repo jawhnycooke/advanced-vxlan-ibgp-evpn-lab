@@ -3,7 +3,7 @@
 
 - name: SET HOSTNAME
   nxos_system:
-    hostname: "{{ ansible_inventory_hostname }}"
+    hostname: "{{ inventory_hostname }}"
 
 - name: SET DOMAIN NAME
   nxos_system:
