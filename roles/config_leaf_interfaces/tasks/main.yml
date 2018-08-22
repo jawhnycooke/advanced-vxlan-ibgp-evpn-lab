@@ -1,5 +1,27 @@
 ---
 # tasks file for config_leaf
+- name: CONFIGURE PORTCHANNEL FOR INTERSWITCH LINK
+  nxos_portchannel:
+      group: "{{ channel_group }}"
+      members: "{{ item.interface }}"
+      mode: "active"
+  with_items:
+    - "{{ port_channel_interfaces }}"
+
+- name: CONFIGURE PORTCHANNEL MTU
+  nxos_interface:
+    name: "{{ item.interface }}"
+    description: "{{ item.description }}"
+    mode: layer2
+    mtu: 9216
+  with_items:
+    - "{{ port_channel_interfaces }}"
+
+- name: CONFIGURE PORTCHANNEL AS TRUNK
+  nxos_l2_interface:
+    mode: trunk
+    name: Port-channel 999
+    trunk_vlans: "1-1002"
 
 - name: CONFIGURE ETHERNET INTERFACES AS L3
   nxos_interface:

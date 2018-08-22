@@ -2,15 +2,20 @@
 - hosts: leaf
   connection: network_cli
   gather_facts: no
-
   roles:
     - config_system
-    - config_leaf
+    - config_leaf_interfaces
+    - config_ospf
+    - config_leaf_anycast
+    - config_leaf_bgp
+    - config_leaf_nve
 
 - hosts: spine
   connection: network_cli
   gather_facts: no
-
   roles:
     - config_system
-    - config_spine
+    - config_spine_interfaces
+    - config_ospf
+    - config_spine_anycast
+    - config_spine_bgp
