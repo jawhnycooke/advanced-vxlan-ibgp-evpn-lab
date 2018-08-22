@@ -49,6 +49,14 @@
     - "{{ loopback_interfaces }}"
     - "{{ vlan_interfaces }}"
 
+- name: ADD VRRP IP TO SERVER VLAN INTERFACES
+  nxos_vrrp:
+    interface: "{{ item.interface }}"
+    group: "{{ item.vrrp_group }}"
+    vip: "{{ item.vip }}"
+  with_items:
+    - "{{ vlan_interfaces }}"
+
 - name: ADD IPV6 ADDRESSES SERVER VLAN INTERFACES
   nxos_l3_interface:
     name: "{{ item.interface }}"
