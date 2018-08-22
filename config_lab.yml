@@ -1,0 +1,16 @@
+---
+- hosts: leaf
+  connection: network_cli
+  gather_facts: no
+
+  roles:
+    - config_system
+    - config_leaf
+
+- hosts: spine
+  connection: network_cli
+  gather_facts: no
+
+  roles:
+    - config_system
+    - config_spine

@@ -1,0 +1,24 @@
+---
+# tasks file for config_spine_anycast
+- name: ADD PIM SPARSE MODE TO INTERFACES
+  nxos_pim_interface:
+    interface: "{{ item.interface }}"
+    sparse: yes
+  with_items:
+    - "{{ pim_interfaces }}"
+
+- name: CONFIGURE ANYCAST RP ADDRESS
+  nxos_pim_rp_address:
+    rp_address: "{{ pim_rp_address }}"
+    group_list: "{{ pim_group_list }}"
+
+- name: CONFIGURE PIM SSM RANGE
+  nxos_pim:
+    ssm_range: "{{ pim_ssm_range }}"
+
+- name: CONFIGURE ANYCAST RP MAPPING
+  nxos_config:
+    lines: 
+      - ip pim anycast-rp {{ item.rp_addr }} {{ item.loopback }}
+    save_when: modified
+  loop: "{{ pim_anycast_interfaces }}"

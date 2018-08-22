@@ -1,0 +1,30 @@
+---
+features:
+  - { feature:  nxapi }
+  - { feature:  ospf }
+  - { feature:  bgp }
+  - { feature:  pim }
+  - { feature:  nv overlay }
+  - { feature:  vn-segment-vlan-based }
+#  - { feature:  tacacs+ }
+#  - { feature:  scheduler }
+#  - { feature:  interface-vlan }
+#  - { feature:  lldp }
+#  - { feature:  bfd }
+
+acls:
+  - { name: SNMP-RO-NMNET, remark: '+----------------------------------------------------------------------', seq 10, action: remark}
+  - { name: SNMP-RO-NMNET, remark: '+ SNMP Read-Only Acesss (NMNET)', seq 20, action: remark}
+  - { name: SNMP-RO-NMNET, remark: '+----------------------------------------------------------------------', seq 30, action: remark}
+  - { name: SNMP-RO-NMNET, src: 10.0.0.0/8, dest: any, seq: 40, action: permit, proto: ip, state: present }
+
+  - { name: SNMP-RW-NMNET, remark: '+----------------------------------------------------------------------', seq 10, action: remark, state: present}
+  - { name: SNMP-RW-NMNET, remark: '+ SNMP Read-Write Acesss (NMNET)', seq: 20, action: remark, state: present}
+  - { name: SNMP-RW-NMNET, remark: '+----------------------------------------------------------------------', seq 30, action: remark, state: present}
+  - { name: SNMP-RW-NMNET, src: 10.0.0.0/8, dest: any, seq: 40, action: permit, proto: ip, state: present }
+
+#vlans:
+#  - { vlan_id: 900, vni: 10700, name: ansible-test-vlan}
+
+#vlan_svi:
+#  - { vlan_id: 900, addr: 10.0.10.1, mask: 24, name: ansible-test-svi}

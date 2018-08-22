@@ -1,0 +1,47 @@
+---
+role: leaf
+
+hostname: leaf01
+
+bgp_asn: 65535
+bgp_router_id: 30.1.1.1
+
+bgp_address_families:
+  - { afi: ipv4, safi: unicast }
+  - { afi: l2vpn, safi: evpn }
+
+bgp_neighbors:
+  - { remote_as: 65535, neighbor: 10.1.1.1, update_source: "loopback0", afi: l2vpn, safi: evpn, send_community: "both", rr_client: true }
+  - { remote_as: 65535, neighbor: 20.1.1.1, update_source: "loopback0", afi: l2vpn, safi: evpn, send_community: "both", rr_client: true }
+
+bgp_interfaces:  
+  - { interface: vxlan-900001, afi: ipv4, safi: unicast }
+
+##### OSPF CONFIG VARS #####
+ospf_proc_id: 1
+ospf_area: 0.0.0.0
+ospf_loopback:
+  - { interface: "Loopback0" }
+
+ospf_unnumbered_interfaces:
+  - { interface: "Ethernet1/8" }
+  - { interface: "Ethernet1/9" }
+
+# nxos_pim #
+pim_ssm_range: "232.0.0.0/8"
+pim_rp_address: "100.1.1.1"
+pim_group_list: "224.0.0.0/4"
+pim_interfaces:
+  - { interface: "Loopback0" }
+  - { interface: "Ethernet1/8" }
+  - { interface: "Ethernet1/9" }
+
+vrfs:
+  - { name: "vxlan-900001", vni: "900001", interfaces: "Vlan101", vlan_id: "101" }
+  - { name: "vxlan-900001", vni: "900001", interfaces: "Vlan1001", vlan_id: "1001" }
+  - { name: "vxlan-900001", vni: "900001", interfaces: "Vlan1002", vlan_id: "1002" }
+
+## module nxos_evpn_vni ##
+evpn:                                       
+  - {vni: "2001001", rd: auto, rt_both: "auto" }
+  - {vni: "2001002", rd: auto, rt_both: "auto" }

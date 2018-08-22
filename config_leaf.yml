@@ -1,0 +1,12 @@
+---
+- hosts: leaf
+  connection: network_cli
+  gather_facts: no
+
+  roles:
+    - config_system
+    - config_leaf_interfaces
+    - config_ospf
+    - config_leaf_anycast
+    - config_leaf_bgp
+    - config_leaf_nve

@@ -1,0 +1,12 @@
+---
+spine:
+  hosts:
+    r0-spine01:
+      inventory_name: spine01
+      ansible_host: 192.168.122.11
+      ansible_network_os: nxos
+
+    r0-spine02:
+      inventory_name: spine02
+      ansible_host: 192.168.122.12
+      ansible_network_os: nxos

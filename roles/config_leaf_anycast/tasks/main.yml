@@ -1,0 +1,28 @@
+---
+# tasks file for config_leaf_anycast
+- name: ADD PIM SPARSE MODE TO INTERFACES
+  nxos_pim_interface:
+    interface: "{{ item.interface }}"
+    sparse: yes
+  with_items:
+    - "{{ pim_interfaces }}"
+
+- name: CONFIGURE ANYCAST RP ADDRESS
+  nxos_pim_rp_address:
+    rp_address: "{{ pim_rp_address }}"
+    group_list: "{{ pim_group_list }}"
+
+- name: CONFIGURE PIM SSM RANGE
+  nxos_pim:
+    ssm_range: "{{ pim_ssm_range }}"
+
+- name: ASSIGN ANYCAST GATEWAY
+  nxos_overlay_global:
+    anycast_gateway_mac: "0000.2222.3333"
+
+- name: CONFIGURE SVI INTERFACES AS ANYCAST GATEWAYS
+  nxos_interface:
+    name: "{{ item.interface }}"
+    fabric_forwarding_anycast_gateway: yes
+  with_items:
+    - "{{ anycast_gw_interfaces }}"

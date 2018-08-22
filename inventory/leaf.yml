@@ -1,0 +1,22 @@
+---
+leaf:
+  hosts:
+    r1-leaf01:
+      inventory_name: r1-leaf01
+      ansible_host: 192.168.122.21
+      ansible_network_os: nxos
+
+    r1-leaf02:
+      inventory_name: r1-leaf02
+      ansible_host: 192.168.122.22
+      ansible_network_os: nxos
+
+    r2-leaf01:
+      inventory_name: r2-leaf01
+      ansible_host: 192.168.122.23
+      ansible_network_os: nxos
+
+    r2-leaf02:
+      inventory_name: r2-leaf02
+      ansible_host: 192.168.122.24
+      ansible_network_os: nxos

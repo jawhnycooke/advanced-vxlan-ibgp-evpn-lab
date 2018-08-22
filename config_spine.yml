@@ -1,0 +1,11 @@
+---
+- hosts: spine
+  connection: network_cli
+  gather_facts: no
+
+  roles:
+    - config_system
+    - config_spine_interfaces
+    - config_ospf
+#    - config_spine_anycast
+#    - config_spine_bgp

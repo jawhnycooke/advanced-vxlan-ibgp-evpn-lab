@@ -1,0 +1,25 @@
+---
+# tasks file for config_ospf
+
+- name: ENABLE OSPF
+  nxos_ospf:
+    ospf: "{{ ospf_proc_id }}"
+    state: present
+
+- name: ADD L3 INTERFACES TO OSPF
+  nxos_interface_ospf:
+    interface: "{{ item.interface }}"
+    ospf: "{{ ospf_proc_id }}"
+    area: "{{ ospf_area }}"
+  with_items:
+    - "{{ ospf_loopback }}"
+    - "{{ ospf_unnumbered_interfaces }}"
+
+- name: MAKE LEAF-SPINE INTERFACES OSPF POINT-TO-POINT NETWORKS
+  nxos_config:
+    lines: 
+      - ip ospf network point-to-point
+    parents: 
+      - interface {{ item.interface }}
+  with_items:
+    - "{{ ospf_unnumbered_interfaces }}"

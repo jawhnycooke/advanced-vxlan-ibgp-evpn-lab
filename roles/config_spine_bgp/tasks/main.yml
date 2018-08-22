@@ -1,0 +1,24 @@
+---
+# tasks file for config_spine_bgp
+- name: ENSURE BGP ASN EXISTS
+  nxos_bgp:
+    asn: "{{ bgp_asn }}"
+    router_id: "{{ bgp_router_id }}"
+
+- name: BGP NEIGHBOR CONFIG
+  nxos_bgp_neighbor:
+    asn: "{{ bgp_asn }}"
+    neighbor: "{{ item.neighbor }}"
+    remote_as: "{{ item.remote_as }}"
+    update_source: "Loopback0"
+  with_items: "{{ bgp_neighbors }}"
+
+- name: CONFIGURE L2VPN UNICAST ADDRESS FAMILY
+  nxos_bgp_neighbor_af:
+    asn: "{{ bgp_asn }}"
+    neighbor: "{{ item.neighbor }}"
+    afi: l2vpn
+    safi: evpn
+    send_community: both
+    route_reflector_client: true
+  with_items: "{{ bgp_neighbors }}"

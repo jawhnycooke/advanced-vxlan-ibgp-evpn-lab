@@ -1,0 +1,175 @@
+---
+# tasks file for nxos_config_template
+- name: ENABLE NECESSARY FEATURES
+  nxos_feature:
+    feature: "{{ item.feature }}"
+  with_items: "{{ features }}"
+
+- name: ENABLE NV OVERLAY EVPN
+  nxos_evpn_global:
+    nv_overlay_evpn: true
+
+- name: SET DOMAIN NAME
+  nxos_system:
+    domain_name: "{{ domain_name }}"
+
+- name: DNS SERVER HOST CONFIGURATION
+  nxos_system:
+    name_servers: "{{ item.server }}"
+  with_items:
+    - "{{ name_servers }}"
+
+- name: SET SYSTEM JUMBO MTU TO 9216
+  nxos_system:
+    system_mtu: 9216
+
+#- name: Logging Configuration
+#  nxos_config:
+#    lines:
+#      - 'logging server "{{ item.server }}" "{{ item.log_level }}" use-vrf "{{ item.vrf }}" facility "{{ item.facility }}"'
+#      - 'logging source-interface "{{ item.source }}"'
+#    force: yes
+#  with_items:
+#  - "{{ logging }}"
+
+- name: CONFIGURE INTERFACES AS L3
+  nxos_interface:
+    name: "{{ item.interface }}"
+    description: "{{ item.description }}"
+    mode: layer3
+    mtu: 9216
+  with_items:
+    - "{{ l3_interfaces }}"
+
+### FIGURE OUT HOW TO ADD IPV6 ADDRS ###
+- name: CREATE L3 IP INTERFACES
+  nxos_l3_interface:
+    name: "{{ item.interface }}"
+    ipv4: "{{ item.ipv4 }}"
+    state: present
+  with_items:
+    - "{{ loopback_interfaces }}"
+    - "{{ l3_interfaces }}"
+
+- name: ENSURE VLANs 1-1002 ARE PRESENT ON THE SWITCH
+  nxos_vlan:
+    vlan_range: "1-1002"
+    state: present
+  when: role == "leaf"
+
+- name: CONFIGURE LEAF SERVER INTERFACES AS L2
+  nxos_interface:
+    name: "{{ item.interface }}"
+    description: "{{ item.description }}"
+    mode: layer2
+    mtu: 9216
+  with_items:
+    - "{{ l2_interfaces }}"
+  when: role == "leaf"
+
+- name: ADD LEAF SERVER INTERFACES TO VLANs
+  nxos_vlan:
+    vlan_id: "{{ item.access_vlan }}"
+    interfaces: "{{ item.interface }}"
+  loop: "{{ l2_interfaces }}"
+  ignore_errors: true
+  when: role == "leaf"
+
+- name: ENABLE OSPF
+  nxos_ospf:
+    ospf: "{{ ospf_proc_id }}"
+    state: present
+
+- name: ADD L3 INTERFACES TO OSPF
+  nxos_interface_ospf:
+    interface: "{{ item.interface }}"
+    ospf: "{{ ospf_proc_id }}"
+    area: "{{ ospf_area }}"
+  with_items:
+    - "{{ ospf_interfaces }}"
+
+- name: ADD PIM SPARSE MODE TO INTERFACES
+  nxos_pim_interface:
+    interface: "{{ item.interface }}"
+    sparse: yes
+  with_items:
+    - "{{ pim_interfaces }}"
+
+- name: ASSIGN ANYCAST GATEWAY
+  nxos_overlay_global:
+    anycast_gateway_mac: "0000.2222.3333"
+  when: role == "leaf"
+
+- name: CONFIGURE SVI INTERFACES AS ANYCAST GATEWAYS
+  nxos_interface:
+    name: "{{ item.interface }}"
+    fabric_forwarding_anycast_gateway: yes
+  with_items:
+    - "{{ anycast_gw_interfaces }}"
+  when: role == "leaf"
+
+- name: CONFIGURE ANYCAST RP ADDRESS
+  nxos_pim_rp_address:
+    rp_address: "{{ pim_rp_address }}"
+    group_list: "{{ pim_group_list }}"
+
+- name: CONFIGURE PIM SSM RANGE
+  nxos_pim:
+    ssm_range: "{{ pim_ssm_range }}"
+
+- name: CONFIGURE ANYCAST RP 100.1.1.1 10.1.1.1
+  nxos_config:
+    lines: 
+      - ip pim anycast-rp 100.1.1.1 10.1.1.1
+      - ip pim anycast-rp 100.1.1.1 20.1.1.1
+    save_when: modified
+
+#- name: Create ACL
+#  nxos_acl:
+#    name: "{{ item.name }}"
+#    seq: "{{ item.seq }}"
+#    action: "{{ item.action }}"
+#    proto: "{{ item.proto }}"
+#    src: "{{ item.src }}"
+#    dest: "{{ item.dest }}"
+#  with_items: "{{ acls }}"
+
+- name: ENSURE BGP ASN EXISTS
+  nxos_bgp:
+    asn: "{{ bgp_asn }}"
+    router_id: "{{ bgp_router_id }}"
+  tags:
+    - bgp
+
+- name: BGP NEIGHBOR CONFIG
+  nxos_bgp_neighbor:
+    asn: "{{ bgp_asn }}"
+    neighbor: "{{ item.neighbor }}"
+    remote_as: "{{ item.remote_as }}"
+    update_source: "Loopback0"
+  with_items: "{{ bgp_neighbors }}"
+  tags:
+    - bgp
+
+#- name: CONFIGURE IPV4 UNICAST ADDRESS FAMILY
+#  nxos_bgp_neighbor_af:
+#    asn: "{{ bgp_asn }}"
+#    neighbor: "{{ item.neighbor }}"
+#    afi: ipv4
+#    safi: unicast
+#  with_items: "{{ bgp_neighbors }}"
+#  when: role == "leaf"
+#  tags:
+#    - bgp
+
+- name: CONFIGURE L2VPN UNICAST ADDRESS FAMILY
+  nxos_bgp_neighbor_af:
+    asn: "{{ bgp_asn }}"
+    neighbor: "{{ item.neighbor }}"
+    afi: l2vpn
+    safi: evpn
+    send_community: both
+    route_reflector_client: true
+  with_items: "{{ bgp_neighbors }}"
+  tags:
+    - bgp

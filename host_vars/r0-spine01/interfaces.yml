@@ -1,0 +1,13 @@
+---
+mgmt_interface:
+  - { interface: "mgmt0", description: "MTGT SWITCH Ethernet2", ipv4: "192.168.122.11/24" }
+
+loopback_interfaces:
+  - { interface: "Loopback0", description: "Loopback0 for local VTEP IP, and BGP", ipv4: "10.1.1.1/32" }
+  - { interface: "Loopback1", description: "Loopback1 for Anycast RP", ipv4: "100.1.1.1/32" }
+
+l3_interfaces:
+  - { interface: "Ethernet1/1", description: "spine-leaf r1-leaf01 Ethernet1/8", ipv4: "ip unnumbered Loopback0" }
+  - { interface: "Ethernet1/2", description: "spine-leaf r1-leaf01 Ethernet1/8", ipv4: "ip unnumbered Loopback0" }
+  - { interface: "Ethernet1/3", description: "spine-leaf r2-leaf02 Ethernet1/8", ipv4: "ip unnumbered Loopback0" }
+  - { interface: "Ethernet1/4", description: "spine-leaf r2-leaf02 Ethernet1/8", ipv4: "ip unnumbered Loopback0" }

@@ -1,0 +1,14 @@
+---
+ansible_connection: network_cli
+ansible_user: admin
+ansible_ssh_pass: admin
+
+domain_name: mylab.com
+
+system_image: "nxos.7.0.3.I6.1.bin"
+
+name_servers:
+  - { server: 8.8.8.8, vrf: management }
+
+logging:
+  - { server: 192.168.122.254, log_level: 6, vrf: management, facility: syslog, source: mgmt0 }

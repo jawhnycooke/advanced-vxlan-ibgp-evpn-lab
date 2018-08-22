@@ -1,0 +1,45 @@
+---
+# tasks file for config_system
+
+- name: SET HOSTNAME
+  nxos_system:
+    domain_name: "{{ ansible_inventory_name }}"
+
+- name: SET DOMAIN NAME
+  nxos_system:
+    domain_name: "{{ domain_name }}"
+
+- name: DNS SERVER HOST CONFIGURATION
+  nxos_system:
+    name_servers: "{{ item.server }}"
+  with_items:
+    - "{{ name_servers }}"
+
+# TAKES FOREVER DO NOT USE IN THE LAB
+- name: SET SYSTEM IMAGE
+  check_mode: yes
+  nxos_install_os:
+    system_image_file: "{{ system_image }}"
+    issu: desired
+
+- name: ENABLE NECESSARY FEATURES
+  nxos_feature:
+    feature: "{{ item.feature }}"
+  with_items: "{{ features }}"
+
+- name: ENABLE NV OVERLAY EVPN
+  nxos_evpn_global:
+    nv_overlay_evpn: true
+
+- name: SET SYSTEM JUMBO MTU TO 9216
+  nxos_system:
+    system_mtu: 9216
+
+#- name: Logging Configuration
+#  nxos_config:
+#    lines:
+#      - 'logging server "{{ item.server }}" "{{ item.log_level }}" use-vrf "{{ item.vrf }}" facility "{{ item.facility }}"'
+#      - 'logging source-interface "{{ item.source }}"'
+#    force: yes
+#  with_items:
+#  - "{{ logging }}"

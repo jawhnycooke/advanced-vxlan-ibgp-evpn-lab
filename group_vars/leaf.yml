@@ -1,0 +1,37 @@
+---
+features:
+  - { feature:  ospf }
+  - { feature:  bgp }
+  - { feature:  pim }
+  - { feature:  interface-vlan }
+  - { feature:  hsrp }
+  - { feature:  nv overlay }
+  - { feature:  vn-segment-vlan-based }
+#  - { feature:  nxapi }
+#  - { feature:  tacacs+ }
+#  - { feature:  scheduler }
+#  - { feature:  dhcp }
+#  - { feature:  lldp }
+#  - { feature:  bfd }
+
+vlan_mappings:
+  - { vlan_id: "101", mapped_vni: "900001", description: "Maps vlan 101 to VNI 900001" }
+  - { vlan_id: "1001", mapped_vni: "2001001", description: "Maps vlan 1001 to VNI 2001001" }
+  - { vlan_id: "1002", mapped_vni: "2001002", description: "Maps vlan 1002 to VNI 2001002" }
+
+acls:
+  - { name: SNMP-RO-NMNET, remark: '+----------------------------------------------------------------------', seq 10, action: remark}
+  - { name: SNMP-RO-NMNET, remark: '+ SNMP Read-Only Acesss (NMNET)', seq 20, action: remark}
+  - { name: SNMP-RO-NMNET, remark: '+----------------------------------------------------------------------', seq 30, action: remark}
+  - { name: SNMP-RO-NMNET, src: 10.0.0.0/8, dest: any, seq: 40, action: permit, proto: ip, state: present }
+
+  - { name: SNMP-RW-NMNET, remark: '+----------------------------------------------------------------------', seq 10, action: remark, state: present}
+  - { name: SNMP-RW-NMNET, remark: '+ SNMP Read-Write Acesss (NMNET)', seq: 20, action: remark, state: present}
+  - { name: SNMP-RW-NMNET, remark: '+----------------------------------------------------------------------', seq 30, action: remark, state: present}
+  - { name: SNMP-RW-NMNET, src: 10.0.0.0/8, dest: any, seq: 40, action: permit, proto: ip, state: present }
+
+#vlans:
+#  - { vlan_id: 900, vni: 10700, name: ansible-test-vlan}
+
+#vlan_svi:
+#  - { vlan_id: 900, addr: 10.0.10.1, mask: 24, name: ansible-test-svi}

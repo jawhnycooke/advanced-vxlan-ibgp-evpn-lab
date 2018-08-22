@@ -1,0 +1,145 @@
+---
+# tasks file for config_leaf
+
+- name: CONFIGURE ETHERNET INTERFACES AS L3
+  nxos_interface:
+    name: "{{ item.interface }}"
+    description: "{{ item.description }}"
+    mode: layer3
+    mtu: 9216
+  with_items:
+    - "{{ l3_interfaces }}"
+
+- name: CONFIGURE LOOPBACK INTERFACES AS L3
+  nxos_interface:
+    name: "{{ item.interface }}"
+    description: "{{ item.description }}"
+    mode: layer3
+  with_items:
+    - "{{ loopback_interfaces }}"
+
+- name: ADD IPV4 ADDRESSES TO LOOPBACK AND SERVER VLAN INTERFACES
+  nxos_l3_interface:
+    name: "{{ item.interface }}"
+    ipv4: "{{ item.ipv4 }}"
+    state: present
+  with_items:
+    - "{{ loopback_interfaces }}"
+    - "{{ vlan_interfaces }}"
+
+- name: ADD IPV6 ADDRESSES SERVER VLAN INTERFACES
+  nxos_l3_interface:
+    name: "{{ item.interface }}"
+    ipv6: "{{ item.ipv6 }}"
+    state: present
+  with_items:
+    - "{{ vlan_interfaces }}"
+
+- name: ENSURE VLANs 1,101,1001, and 1002 ARE PRESENT ON THE LEAF SWITCH
+  nxos_vlan:
+    vlan_range: "1,101,1001,1002"
+    state: present
+
+- name: ENABLE IP FORWARDING ON VLAN 101
+  nxos_config:
+    lines: 
+      - ip forward
+    parents: 
+      - interface Vlan101
+    save_when: modified
+
+- name: CREATE VRF AND CONFIGURE VNI
+  nxos_vrf:
+    name: "{{ item.name }}"
+    vni: "{{ item.vni }}"
+    rd: "auto"
+  with_items:
+    - "{{ vrfs }}"
+
+- name: ADD INTERFACES TO VRF
+  nxos_config:
+    lines: 
+      - vrf member {{ item.name }}
+    parents: interface {{ item.interfaces }}
+    save_when: modified
+  loop: "{{ vrfs }}"
+
+- name: CREATE VRF AND CONFIGURE VNI IPV4
+  nxos_vrf_af:
+    vrf: "{{ item.name }}"
+    route_target_both_auto_evpn: true
+    afi: ipv4
+  with_items:
+    - "{{ vrfs }}"
+
+- name: ADD ROUTE-TARGET AUTO TO IPV4 ADDRESS FAMILY
+  nxos_config:
+    lines: 
+      - route-target both auto
+    parents: 
+      - vrf context {{ item.name }}
+      - rd auto
+      - address-family ipv4 unicast
+    save_when: modified
+  loop: "{{ vrfs }}"
+
+- name: CREATE VRF AND CONFIGURE VNI IPV6
+  nxos_vrf_af:
+    vrf: "{{ item.name }}"
+    route_target_both_auto_evpn: true
+    afi: ipv6
+  with_items:
+    - "{{ vrfs }}"
+
+- name: ADD ROUTE-TARGET AUTO TO IPV6 ADDRESS FAMILY
+  nxos_config:
+    lines: 
+      - route-target both auto
+    parents: 
+      - vrf context {{ item.name }}
+      - rd auto
+      - address-family ipv6 unicast
+    save_when: modified
+  loop: "{{ vrfs }}"
+
+- name: CREATE OVERLAY VRF VLAN AND VN-SEGMENT
+  nxos_vlan:
+    vlan_id: "{{ item.vlan_id }}"
+    mapped_vni: "{{ item.mapped_vni }}"
+  with_items:
+    - "{{ vlan_mappings }}"
+
+- name: CREATE OVERLAY VRF VLAN AND VN-SEGMENT
+  nxos_config:
+    lines:
+      - vn-segment {{ item.mapped_vni }}
+    parents:
+      - vlan {{ item.vlan_id }}
+  loop: "{{ vlan_mappings }}"
+  tags:
+    - mapped
+
+- name: CONFIGURE LEAF SERVER INTERFACES AS L2
+  nxos_interface:
+    name: "{{ item.interface }}"
+    description: "{{ item.description }}"
+    mode: layer2
+    mtu: 9216
+  with_items:
+    - "{{ l2_interfaces }}"
+
+- name: ADD SERVER INTERFACES TO VLANs
+  nxos_config:
+    lines: 
+      - switchport access vlan {{ item.access_vlan }}
+    parents: interface {{ item.interface }}
+    save_when: changed
+  loop: "{{ l2_interfaces }}"
+
+- name: Create the network virtualization endpoint (NVE) interface
+  nxos_vxlan_vtep:
+    interface: nve1
+    host_reachability: true
+    source_interface: loopback0
+    state: present
+  tags: nve

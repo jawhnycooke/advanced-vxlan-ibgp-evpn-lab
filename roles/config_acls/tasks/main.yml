@@ -1,0 +1,11 @@
+---
+# tasks file for config_acls
+- name: Create ACL
+  nxos_acl:
+    name: "{{ item.name }}"
+    seq: "{{ item.seq }}"
+    action: "{{ item.action }}"
+    proto: "{{ item.proto }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items: "{{ acls }}"

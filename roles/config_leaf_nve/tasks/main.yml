@@ -1,0 +1,48 @@
+---
+# tasks file for config_leaf_nve
+- name: Create the network virtualization endpoint (NVE) interface
+  nxos_vxlan_vtep:
+    interface: nve1
+    host_reachability: true
+    source_interface: loopback0
+    state: present
+  tags: nve
+
+- name: ASSOCIATE NVE WITH VRF 
+  nxos_vxlan_vtep_vni:
+    interface: nve1
+    assoc_vrf: true
+    vni: 900001
+  tags: nve
+
+- name: ASSOCIATE VNI 2001001 WITH NVE INTERFACE 
+  nxos_vxlan_vtep_vni:
+    interface: nve1
+    multicast_group: 239.0.0.1
+    vni: 2001001
+  tags: nve
+
+- name: ASSOCIATE VNI 2001002 WITH NVE INTERFACE 
+  nxos_vxlan_vtep_vni:
+    interface: nve1
+    multicast_group: 239.0.0.1
+    vni: 2001002
+  tags: nve
+
+- name: CONFIGURE EVPN AS L2
+  nxos_evpn_vni:
+    vni: 2001001
+    route_distinguisher: auto
+    route_target_both: auto
+    route_target_export: auto
+    route_target_import: auto
+  tags: evpn
+
+- name: CONFIGURE EVPN AS L2
+  nxos_evpn_vni:
+    vni: 2001002
+    route_distinguisher: auto
+    route_target_both: auto
+    route_target_export: auto
+    route_target_import: auto
+  tags: evpn
