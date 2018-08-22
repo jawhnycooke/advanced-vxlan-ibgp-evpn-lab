@@ -2,7 +2,7 @@
 # tasks file for config_leaf
 - name: CONFIGURE PORTCHANNEL FOR INTERSWITCH LINK
   nxos_linkagg:
-      group: "{{ channel_group }}"
+      group: "{{ item.channel_group }}"
       members: "{{ item.interface }}"
       mode: "active"
   with_items:
