@@ -6,8 +6,8 @@ loopback_interfaces:
   - { interface: "Loopback0", description: "Loopback0 for local VTEP IP, and BGP", ipv4: "40.1.1.1/32" }
 
 vlan_interfaces:
-  - { interface: "Vlan1001", description: "Server facing SVI", ipv4: "4.1.1.1/24", ipv6: "4:1:0:1::1/64", vrf_member: "vxlan-900001" }
-  - { interface: "Vlan1002", description: "Server facing SVI", ipv4: "4.2.2.1/24", ipv6: "4:2:0:1::1/64", vrf_member: "vxlan-900001" }
+  - { interface: "Vlan1001", description: "Server facing SVI", ipv4: "4.1.1.3/24", ipv6: "4:1:0:1::1/64", vrf_member: "vxlan-900001" }
+  - { interface: "Vlan1002", description: "Server facing SVI", ipv4: "4.2.2.3/24", ipv6: "4:2:0:1::1/64", vrf_member: "vxlan-900001" }
 
 l2_interfaces:
   - { interface: "Ethernet1/1", description: "Server facing Interfaces", mode: "access", access_vlan: "1002", vrf_member: "" }
