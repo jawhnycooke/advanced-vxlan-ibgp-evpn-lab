@@ -13,7 +13,8 @@ bgp_address_families:
 bgp_neighbors:
   - { remote_as: 65535, neighbor: 30.1.1.1, update_source: "loopback0", send_community: "both", rr_client: true }
   - { remote_as: 65535, neighbor: 40.1.1.1, update_source: "loopback0", send_community: "both", rr_client: true }
-
+  - { remote_as: 65535, neighbor: 50.1.1.1, update_source: "loopback0", send_community: "both", rr_client: true }
+  - { remote_as: 65535, neighbor: 60.1.1.1, update_source: "loopback0", send_community: "both", rr_client: true }
 
 ##### OSPF CONFIG VARS #####
 ospf_proc_id: 1
@@ -37,8 +38,9 @@ pim_rp_address: "100.1.1.1"
 
 pim_group_list: "224.0.0.0/4"
 
+# NOTE THESE ARE SPINE LOOPBACK0 IPS
 pim_anycast_interfaces:
-  - { rp_addr: "100.1.1.1", loopback: "10.1.1.1" }
+  - { rp_addr: "100.1.1.1", loopback: "10.1.1.1" } 
   - { rp_addr: "100.1.1.1", loopback: "20.1.1.1" }
 
 pim_interfaces:

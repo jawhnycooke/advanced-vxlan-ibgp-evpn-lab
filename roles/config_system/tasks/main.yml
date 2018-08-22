@@ -22,6 +22,11 @@
 #    system_image_file: "{{ system_image }}"
 #    issu: desired
 
+#- name: SET SYSTEM IMAGE
+#  nxos_config:
+#    lines:
+#      - boot nxos bootflash:/{{ system_image }}
+
 - name: ENABLE NECESSARY FEATURES
   nxos_feature:
     feature: "{{ item.feature }}"
