@@ -3,6 +3,7 @@ features:
   - { feature:  ospf }
   - { feature:  bgp }
   - { feature:  pim }
+  - { feature:  vpc }
   - { feature:  interface-vlan }
   - { feature:  vrrp }
   - { feature:  nv overlay }

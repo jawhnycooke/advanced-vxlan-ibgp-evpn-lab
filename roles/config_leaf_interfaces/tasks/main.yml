@@ -65,6 +65,15 @@
   with_items:
     - "{{ vlan_interfaces }}"
 
+- name: MAKE LEAF-SPINE INTERFACES IP UNNUMBERED TO LOOPBACK0
+  nxos_config:
+    lines: 
+      - ip unnumbered loopback0
+    parents: 
+      - interface {{ item.interface }}
+  with_items:
+    - "{{ l3_ospf_uplink_interfaces }}"
+
 - name: ENSURE VLANs 1,101,1001, and 1002 ARE PRESENT ON THE LEAF SWITCH
   nxos_vlan:
     vlan_range: "1,101,1001,1002"
