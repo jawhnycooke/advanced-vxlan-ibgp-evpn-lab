@@ -37,13 +37,13 @@
 
 - name: CONFIGURE VPC
   nxos_vpc:
-    domain: {{ item.domain }}
-    role_priority: {{ item.role_priority }}
-    system_priority: {{ item.system_priority }}
-    pkl_dest: {{ item.pkl_dest }}
-    pkl_src: {{ item.pkl_src }}
-    peer_gw: {{ item.peer_gw }}
-    auto_recovery: {{ item.auto_recovery }}
+    domain: "{{ item.domain }}"
+    role_priority: "{{ item.role_priority }}"
+    system_priority: "{{ item.system_priority }}"
+    pkl_dest: "{{ item.pkl_dest }}"
+    pkl_src: "{{ item.pkl_src }}"
+    peer_gw: "{{ item.peer_gw }}"
+    auto_recovery: "{{ item.auto_recovery }}"
   with_items:
     - "{{ vpc_interface }}"
 
