@@ -171,7 +171,7 @@
   nxos_interface:
     name: "nve1"
     description: "network virtualization endpoint (NVE) interface"
-    mtu: 9216
+    state: present
 
 - name: Create the network virtualization endpoint (NVE) interface
   nxos_vxlan_vtep:
