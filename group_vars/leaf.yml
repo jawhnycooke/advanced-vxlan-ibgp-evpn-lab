@@ -4,8 +4,8 @@ features:
   - { feature:  bgp }
   - { feature:  pim }
   - { feature:  vpc }
+  - { feature:  lacp }
   - { feature:  interface-vlan }
-  - { feature:  vrrp }
   - { feature:  nv overlay }
   - { feature:  vn-segment-vlan-based }
 #  - { feature:  nxapi }

@@ -1,5 +1,7 @@
 ---
 # tasks file for config_leaf
+
+###### CONFIG PORT CHANNEL #####
 - name: CONFIGURE PORTCHANNEL FOR INTERSWITCH LINK
   nxos_linkagg:
       group: "{{ item.channel_group }}"
@@ -22,6 +24,28 @@
     mode: trunk
     name: Port-channel 999
     trunk_vlans: "1-1002"
+
+- name: CONFIGURE VPC PORTCHANNEL KEEPALIVE LINK AS IP UNNUMBERED TO LOOPBACK0
+  nxos_config:
+    lines: 
+      - medium p2p
+      - ip unnumbered loopback0
+    parents: 
+      - interface {{ item.keep_alive_interface }}
+  with_items:
+    - "{{ vpc_interface }}"
+
+- name: CONFIGURE VPC
+  nxos_vpc:
+    domain: {{ item.domain }}
+    role_priority: {{ item.role_priority }}
+    system_priority: {{ item.system_priority }}
+    pkl_dest: {{ item.pkl_dest }}
+    pkl_src: {{ item.pkl_src }}
+    peer_gw: {{ item.peer_gw }}
+    auto_recovery: {{ item.auto_recovery }}
+  with_items:
+    - "{{ vpc_interface }}"
 
 - name: CONFIGURE ETHERNET INTERFACES AS L3
   nxos_interface:
@@ -47,14 +71,6 @@
     state: present
   with_items:
     - "{{ loopback_interfaces }}"
-    - "{{ vlan_interfaces }}"
-
-- name: ADD VRRP IP TO SERVER VLAN INTERFACES
-  nxos_vrrp:
-    interface: "{{ item.interface }}"
-    group: "{{ item.vrrp_group }}"
-    vip: "{{ item.vip }}"
-  with_items:
     - "{{ vlan_interfaces }}"
 
 - name: ADD IPV6 ADDRESSES SERVER VLAN INTERFACES

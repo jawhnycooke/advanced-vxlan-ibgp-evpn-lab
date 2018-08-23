@@ -19,10 +19,6 @@ l3_interfaces:
   - { interface: "Vlan1001", description: "Server facing SVI", ipv4: "4.1.1.2/24", ipv6: "4:1:0:1::2/64", vrf_member: "vxlan-900001" }
   - { interface: "Vlan1002", description: "Server facing SVI", ipv4: "4.2.2.2/24", ipv6: "4:2:0:1::2/64", vrf_member: "vxlan-900001" }
 
-port_channel_interfaces:
-  - { interface: "Ethernet1/6", description: "Portchannel interface 1/6", channel_group: "999", vrf_member: "" }
-  - { interface: "Ethernet1/7", description: "Portchannel interface 1/7", channel_group: "999", vrf_member: "" }
-
 l3_ospf_uplink_interfaces:
   - { interface: "Ethernet1/8", description: "Spine-leaf interconnect spine01", ipv4: "ip unnumbered Loopback0", vrf_member: "" }
   - { interface: "Ethernet1/9", description: "Spine-leaf interconnect spine02", ipv4: "ip unnumbered Loopback0", vrf_member: "" }
@@ -34,3 +30,9 @@ anycast_gw_interfaces:
 control_vlan_interface:
   - { interface: "Vlan101", description: "Internal control VLAN/SVI for the VRF", mode: "access", access_vlan: "101", vrf_member: "vxlan-900001" }
 
+port_channel_interfaces:
+  - { interface: "Ethernet1/6", description: "Portchannel interface 1/6", channel_group: "999", vrf_member: "" }
+  - { interface: "Ethernet1/7", description: "Portchannel interface 1/7", channel_group: "999", vrf_member: "" }
+
+vpc_interface:
+- { interface: "Port-channel999", keep_alive_interface: Ethernet1/5, domain: "999", role_priority: "100", system_priority: "999", pkl_dest: "40.1.1.1", pkl_src: "30.1.1.1", peer_gw: "true", auto_recovery: "true" }
