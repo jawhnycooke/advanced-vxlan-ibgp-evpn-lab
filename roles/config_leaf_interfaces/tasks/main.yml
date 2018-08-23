@@ -25,6 +25,14 @@
     name: Port-channel 999
     trunk_vlans: "1-1002"
 
+- name: CONFIGURE VPC KEEPALIVE INTERFACES AS L3
+  nxos_interface:
+    name: "{{ item.keep_alive_interface }}"
+    description: "{{ item.description }}"
+    mode: layer3
+  with_items:
+    - "{{ vpc_interface }}"
+
 - name: CONFIGURE VPC PORTCHANNEL KEEPALIVE LINK AS IP UNNUMBERED TO LOOPBACK0
   nxos_config:
     lines: 
