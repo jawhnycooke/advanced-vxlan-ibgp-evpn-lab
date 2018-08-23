@@ -166,6 +166,13 @@
     save_when: changed
   loop: "{{ l2_interfaces }}"
 
+
+- name: CONFIGURE LEAF SERVER INTERFACES AS L2
+  nxos_interface:
+    name: "nve1"
+    description: "network virtualization endpoint (NVE) interface"
+    mtu: 9216
+
 - name: Create the network virtualization endpoint (NVE) interface
   nxos_vxlan_vtep:
     interface: nve1
