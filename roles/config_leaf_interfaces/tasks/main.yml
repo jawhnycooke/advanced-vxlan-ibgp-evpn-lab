@@ -5,10 +5,12 @@
 - name: CONFIGURE PORTCHANNEL FOR INTERSWITCH LINK
   nxos_linkagg:
       group: "{{ item.channel_group }}"
+      force: true
+      min_links: 1
       members:
         - Ethernet1/6
         - Ethernet1/7
-      mode: "active"
+      mode: "on"
   with_items:
     - "{{ port_channel_interfaces }}"
 
