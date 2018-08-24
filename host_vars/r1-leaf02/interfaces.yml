@@ -35,4 +35,4 @@ port_channel_interfaces:
   - { interface: "Ethernet1/7", description: "Portchannel interface 1/7", channel_group: "999", vrf_member: "" }
 
 vpc_interface:
-- { interface: "Port-channel999", keep_alive_interface: Ethernet1/5, description: "Ethernet1/5 vpc keep-alive link", domain: "999", role_priority: "200", system_priority: "999", pkl_dest: "30.1.1.1", pkl_src: "40.1.1.1", peer_gw: "true", auto_recovery: "true" }
+- { interface: "Port-channel999", keep_alive_interface: Ethernet1/5, description: "Ethernet1/5 vpc keep-alive link", ipv4: "192.168.0.2/30", domain: "999", role_priority: "200", system_priority: "999", pkl_dest: "192.168.0.1", pkl_src: "192.168.0.2", peer_gw: "true", auto_recovery: "true" }

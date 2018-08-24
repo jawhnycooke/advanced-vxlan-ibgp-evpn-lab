@@ -23,12 +23,3 @@
       - interface {{ item.interface }}
   with_items:
     - "{{ ospf_unnumbered_interfaces }}"
-
-- name: MAKE VPC KEEPALIVE INTERFACES AN OSPF POINT-TO-POINT NETWORK
-  nxos_config:
-    lines: 
-      - ip ospf network point-to-point
-    parents: 
-      - interface {{ item.keep_alive_interface }}
-  with_items:
-    - "{{ vpc_interface }}"

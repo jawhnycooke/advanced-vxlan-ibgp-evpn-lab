@@ -33,13 +33,10 @@
   with_items:
     - "{{ vpc_interface }}"
 
-- name: CONFIGURE VPC PORTCHANNEL KEEPALIVE LINK AS IP UNNUMBERED TO LOOPBACK0
-  nxos_config:
-    lines: 
-      - medium p2p
-      - ip unnumbered loopback0
-    parents: 
-      - interface {{ item.keep_alive_interface }}
+- name: ADD IPV4 ADDRESSES TO VPC KEEPALIVE INTERFACE
+  nxos_l3_interface:
+    name: "{{ item.interface }}"
+    ipv4: "{{ item.ipv4 }}"
   with_items:
     - "{{ vpc_interface }}"
 
