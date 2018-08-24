@@ -2,6 +2,8 @@
 # tasks file for config_leaf
 
 ###### CONFIG PORT CHANNEL #####
+
+
 - name: CONFIGURE PORTCHANNEL FOR INTERSWITCH LINK
   nxos_linkagg:
       group: "{{ item.channel_group }}"
@@ -51,6 +53,7 @@
     system_priority: "{{ item.system_priority }}"
     pkl_dest: "{{ item.pkl_dest }}"
     pkl_src: "{{ item.pkl_src }}"
+    pkl_vrf: "{{ item.pkl_vrf }}"
     peer_gw: "{{ item.peer_gw }}"
     auto_recovery: "{{ item.auto_recovery }}"
   with_items:
