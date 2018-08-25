@@ -21,7 +21,7 @@
       members:
         - Ethernet1/6
         - Ethernet1/7
-      mode: "active"
+      mode: "on"
 
 #- name: CONFIGURE VPC KEEPALIVE INTERFACES AS L3
 #  nxos_interface:
