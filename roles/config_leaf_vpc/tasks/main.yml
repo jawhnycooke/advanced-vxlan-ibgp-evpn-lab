@@ -1,5 +1,21 @@
 ---
 # tasks file for config_leaf_vpc
+- name: VPC - CREATE VPC KEEPALIVE VRF
+  nxos_vrf:
+    name: "keepalive"
+
+- name: ADD VPC KEEPALIVE INTERFACE TO VRF KEEPALIVE
+  nxos_config:
+    lines:
+      - vrf member keepalive
+    parents: interface Ethernet1/5
+
+- name: ADD IPV4 ADDRESSES TO VPC KEEPALIVE INTERFACE
+  nxos_l3_interface:
+    name: "{{ item.keep_alive_interface }}"
+    ipv4: "{{ item.ipv4 }}"
+  with_items:
+    - "{{ vpc_interface }}"
 
 - name: VPC - CONFIGURE PORTCHANNEL INTERFACE FOR USE IN VPC
   nxos_interface:
@@ -24,22 +40,11 @@
         - Ethernet1/7
       mode: "on"
 
-- name: VPC - CREATE VPC KEEPALIVE VRF
-  nxos_vrf:
-    name: "keepalive"
-
 - name: CONFIGURE VPC KEEPALIVE INTERFACES AS L3
   nxos_interface:
     name: "{{ item.keep_alive_interface }}"
     description: "{{ item.description }}"
     mode: layer3
-  with_items:
-    - "{{ vpc_interface }}"
-
-- name: ADD IPV4 ADDRESSES TO VPC KEEPALIVE INTERFACE
-  nxos_l3_interface:
-    name: "{{ item.keep_alive_interface }}"
-    ipv4: "{{ item.ipv4 }}"
   with_items:
     - "{{ vpc_interface }}"
 
