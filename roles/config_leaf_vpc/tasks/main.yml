@@ -12,6 +12,12 @@
   with_items:
     - "{{ vpc_interface }}"
 
+- name: ADD VPC KEEPALIVE INTERFACE TO VRF KEEPALIVE
+  nxos_config:
+    lines:
+      - vrf member keepalive
+    parents: interface Ethernet1/5
+
 - name: ADD IPV4 ADDRESSES TO VPC KEEPALIVE INTERFACE
   nxos_l3_interface:
     name: "{{ item.keep_alive_interface }}"
@@ -19,14 +25,7 @@
   with_items:
     - "{{ vpc_interface }}"
 
-- name: ADD VPC KEEPALIVE INTERFACE TO VRF KEEPALIVE
-  nxos_config:
-    lines:
-      - vrf member keepalive
-    parents: interface Ethernet1/5
-
-
-- name: VPC - CONFIGURE PORTCHANNEL INTERFACE FOR USE IN VPC
+- name: VPC - CREATE PORTCHANNEL INTERFACE
   nxos_interface:
     name: "Port-channel999"
     description: "Port-Channel interface 999 for VPC 999"
@@ -34,14 +33,14 @@
 - name: VPC - ADD MEMBERS TO PORTCHANNEL
   nxos_linkagg:
       group: "999"
-      force: false
+      force: true
       min_links: 0
       members:
         - Ethernet1/6
         - Ethernet1/7
       mode: "active"
 
-- name: VPC - CONFIGURE PORTCHANNEL MEMBER INTERFACES AS L2 TRUNKS
+- name: VPC - CONFIGURE PORTCHANNEL AS L2 TRUNK
   nxos_l2_interface:
     name: "Port-channel999"
     mode: trunk
