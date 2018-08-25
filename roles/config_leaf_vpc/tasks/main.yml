@@ -4,7 +4,7 @@
   nxos_vrf:
     name: "keepalive"
 
-- name: CONFIGURE VPC KEEPALIVE INTERFACES AS L3
+- name: VPC - CONFIGURE VPC KEEPALIVE INTERFACE AS L3
   nxos_interface:
     name: "{{ item.keep_alive_interface }}"
     description: "{{ item.description }}"
@@ -30,6 +30,12 @@
     name: "Port-channel999"
     description: "Port-Channel interface 999 for VPC 999"
 
+- name: VPC - CONFIGURE PORTCHANNEL AS L2 TRUNK
+  nxos_l2_interface:
+    name: "Port-channel999"
+    mode: trunk
+    native_vlan: 1
+
 - name: VPC - ADD MEMBERS TO PORTCHANNEL
   nxos_linkagg:
       group: "999"
@@ -39,12 +45,6 @@
         - Ethernet1/6
         - Ethernet1/7
       mode: "active"
-
-- name: VPC - CONFIGURE PORTCHANNEL AS L2 TRUNK
-  nxos_l2_interface:
-    name: "Port-channel999"
-    mode: trunk
-    native_vlan: 1
 
 
 #- name: CONFIGURE VPC
