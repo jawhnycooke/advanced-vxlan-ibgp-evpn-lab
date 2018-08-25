@@ -1,0 +1,54 @@
+---
+# tasks file for config_leaf_vpc
+
+- name: VPC - CONFIGURE PORTCHANNEL INTERFACE FOR USE IN VPC
+  nxos_interface:
+    name: "Port-channel999"
+    description: "Port-Channel interface 999 for VPC 999"
+
+- name: VPC - CONFIGURE PORTCHANNEL MEMBER INTERFACES AS L2 TRUNKS
+  nxos_l2_interface:
+    name: "{{ item.interface }}"
+    description: "{{ item.description }}"
+    mode: trunk
+    mtu: 9216
+  with_items:
+    - "{{ portchannel_member_interfaces }}"
+
+- name: VPC - ADD MEMBERS TO PORTCHANNEL
+  nxos_linkagg:
+      group: "999"
+      force: true
+      min_links: 1
+      members:
+        - Ethernet1/6
+        - Ethernet1/7
+      mode: "active"
+
+#- name: CONFIGURE VPC KEEPALIVE INTERFACES AS L3
+#  nxos_interface:
+#    name: "{{ item.keep_alive_interface }}"
+#    description: "{{ item.description }}"
+#    mode: layer3
+#  with_items:
+#    - "{{ vpc_interface }}"
+
+#- name: ADD IPV4 ADDRESSES TO VPC KEEPALIVE INTERFACE
+#  nxos_l3_interface:
+#    name: "{{ item.keep_alive_interface }}"
+#    ipv4: "{{ item.ipv4 }}"
+#  with_items:
+#    - "{{ vpc_interface }}"
+
+#- name: CONFIGURE VPC
+#  nxos_vpc:
+#    domain: "{{ item.domain }}"
+#    role_priority: "{{ item.role_priority }}"
+#    system_priority: "{{ item.system_priority }}"
+#    pkl_dest: "{{ item.pkl_dest }}"
+#    pkl_src: "{{ item.pkl_src }}"
+#    pkl_vrf: "{{ item.pkl_vrf }}"
+#    peer_gw: "{{ item.peer_gw }}"
+#    auto_recovery: "{{ item.auto_recovery }}"
+#  with_items:
+#    - "{{ vpc_interface }}"
