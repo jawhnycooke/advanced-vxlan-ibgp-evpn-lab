@@ -44,6 +44,7 @@
   nxos_l2_interface:
     name: "Port-channel999"
     mode: trunk
+    native_vlan: 1
 
 
 #- name: CONFIGURE VPC
