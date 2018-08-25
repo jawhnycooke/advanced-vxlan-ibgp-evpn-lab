@@ -11,7 +11,6 @@
     name: "{{ item.interface }}"
     description: "{{ item.description }}"
     mode: trunk
-    mtu: 9216
   with_items:
     - "{{ port_channel_interfaces }}"
 
