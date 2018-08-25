@@ -12,6 +12,7 @@
     mode: trunk
   with_items:
     - "{{ port_channel_interfaces }}"
+  ignore_errors: true
 
 - name: VPC - ADD MEMBERS TO PORTCHANNEL
   nxos_linkagg:
