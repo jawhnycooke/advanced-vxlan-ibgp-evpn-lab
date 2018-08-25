@@ -9,7 +9,6 @@
 - name: VPC - CONFIGURE PORTCHANNEL MEMBER INTERFACES AS L2 TRUNKS
   nxos_l2_interface:
     name: "{{ item.interface }}"
-    description: "{{ item.description }}"
     mode: trunk
   with_items:
     - "{{ port_channel_interfaces }}"
