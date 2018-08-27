@@ -44,12 +44,15 @@
 
 - name: VPC - ADD MEMBERS TO PORTCHANNEL
   nxos_linkagg:
-      group: "{{ item.domain }}"
-      force: false
+      group: "999"
+      force: true
       min_links: 1
-      members: "{{ item.interface }}"
+      members:
+        - Ethernet1/6
+        - Ethernet1/7
       mode: "active"
-  loop: "{{ vpc_interface }}"
+  with_items:
+    - "{{ vpc_interface }}"
 
 
 - name: CONFIGURE VPC
