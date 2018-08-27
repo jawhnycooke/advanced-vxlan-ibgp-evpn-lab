@@ -54,7 +54,6 @@
   with_items:
     - "{{ vpc_interface }}"
 
-
 - name: CONFIGURE VPC
   nxos_vpc:
     domain: "{{ item.domain }}"
@@ -70,6 +69,6 @@
 - name: CONFIGURE VPC INTERFACE
   nxos_vpc_interface:
     portchannel: "{{ item.domain }}"
-    vpc: "{{ item.domain }}"
+    peer_link: true
   with_items:
     - "{{ vpc_interface }}"
