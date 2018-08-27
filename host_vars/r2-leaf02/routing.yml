@@ -22,7 +22,6 @@ ospf_proc_id: 1
 ospf_area: 0.0.0.0
 ospf_loopback:
   - { interface: "Loopback0" }
-
 ospf_unnumbered_interfaces:
   - { interface: "Ethernet1/8" }
   - { interface: "Ethernet1/9" }
