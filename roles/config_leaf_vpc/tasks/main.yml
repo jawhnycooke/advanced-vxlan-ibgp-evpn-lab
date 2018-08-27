@@ -2,7 +2,9 @@
 # tasks file for config_leaf_vpc
 - name: VPC - CREATE VPC KEEPALIVE VRF
   nxos_vrf:
-    name: "keepalive"
+    name: "{{ item.pkl_vrf }}"
+  with_items:
+    - "{{ vpc_interface }}"
 
 - name: VPC - CONFIGURE VPC KEEPALIVE INTERFACE AS L3
   nxos_interface:
@@ -16,7 +18,9 @@
   nxos_config:
     lines:
       - vrf member keepalive
-    parents: interface Ethernet1/5
+    parents: interface {{ item.keep_alive_interface }}
+  with_items:
+    - "{{ vpc_interface }}"
 
 - name: ADD IPV4 ADDRESSES TO VPC KEEPALIVE INTERFACE
   nxos_l3_interface:
@@ -32,35 +36,37 @@
 
 - name: VPC - CONFIGURE PORTCHANNEL AS L2 TRUNK
   nxos_l2_interface:
-    name: "Port-channel999"
+    name: "{{ item.interface }}"
     mode: trunk
     native_vlan: 1
+  with_items:
+    - "{{ vpc_interface }}"
 
 - name: VPC - ADD MEMBERS TO PORTCHANNEL
   nxos_linkagg:
-      group: "999"
-      force: true
-      min_links: 0
-      members:
-        - Ethernet1/6
-        - Ethernet1/7
+      group: "{{ item.domain }}"
+      force: false
+      min_links: 1
+      members: "{{ item.interface }}"
       mode: "active"
+  loop: "{{ vpc_interface }}"
 
 
-#- name: CONFIGURE VPC
-#  nxos_vpc:
-#    domain: "{{ item.domain }}"
-#    role_priority: "{{ item.role_priority }}"
-#    system_priority: "{{ item.system_priority }}"
-#    pkl_dest: "{{ item.pkl_dest }}"
-#    pkl_src: "{{ item.pkl_src }}"
-#    pkl_vrf: "{{ item.pkl_vrf }}"
-#    peer_gw: "{{ item.peer_gw }}"
-#    auto_recovery: "{{ item.auto_recovery }}"
-#  with_items:
-#    - "{{ vpc_interface }}"
+- name: CONFIGURE VPC
+  nxos_vpc:
+    domain: "{{ item.domain }}"
+    role_priority: "{{ item.role_priority }}"
+    pkl_dest: "{{ item.pkl_dest }}"
+    pkl_src: "{{ item.pkl_src }}"
+    pkl_vrf: "{{ item.pkl_vrf }}"
+    peer_gw: "{{ item.peer_gw }}"
+    auto_recovery: "{{ item.auto_recovery }}"
+  with_items:
+    - "{{ vpc_interface }}"
 
-#- name: CONFIGURE VPC INTERFACE
-#  nxos_vpc_interface:
-#    portchannel: 999
-#    vpc: 999
+- name: CONFIGURE VPC INTERFACE
+  nxos_vpc_interface:
+    portchannel: "{{ item.domain }}"
+    vpc: "{{ item.domain }}"
+  with_items:
+    - "{{ vpc_interface }}"
