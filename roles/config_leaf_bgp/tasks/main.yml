@@ -32,3 +32,13 @@
     send_community: both
     route_reflector_client: false
   with_items: "{{ bgp_neighbors }}"
+
+- name: CONFIGURE BGP TO ADVERTISE PRIMARY IP
+  nxos_config:
+    lines:
+      - advertise-pip
+    parents:
+      - router bgp {{ bgp_asn }}
+      - neighbor {{ item.neighbor }}
+      - address-family l2vpn evpn
+  with_items: "{{ bgp_neighbors }}"

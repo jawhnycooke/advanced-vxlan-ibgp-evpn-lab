@@ -37,10 +37,14 @@ pim_interfaces:
 
 vrfs:
   - { name: "vxlan-900001", vni: "900001", interfaces: "Vlan101", vlan_id: "101" }
-  - { name: "vxlan-900001", vni: "900001", interfaces: "Vlan1001", vlan_id: "1001" }
-  - { name: "vxlan-900001", vni: "900001", interfaces: "Vlan1002", vlan_id: "1002" }
+  - { name: "vxlan-900001", vni: "200001", interfaces: "Vlan1001", vlan_id: "1001" }
+  - { name: "vxlan-900001", vni: "200002", interfaces: "Vlan1002", vlan_id: "1002" }
+  - { name: "vxlan-900001", vni: "200003", interfaces: "Vlan1003", vlan_id: "1003" }
+  - { name: "vxlan-900001", vni: "200004", interfaces: "Vlan1004", vlan_id: "1004" }
 
 ## module nxos_evpn_vni ##
 evpn:                                       
   - {vni: "2001001", rd: auto, rt_both: "auto" }
   - {vni: "2001002", rd: auto, rt_both: "auto" }
+  - {vni: "2001003", rd: auto, rt_both: "auto" }
+  - {vni: "2001004", rd: auto, rt_both: "auto" }

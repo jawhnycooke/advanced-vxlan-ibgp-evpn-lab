@@ -151,6 +151,13 @@
     state: present
   tags: nve
 
+- name: ADVERTISE VIRTUAL RMAC ON NVE INTERFACE
+  nxos_config:
+    lines: 
+      - advertise virtual-rmac
+    parents: 
+      - interface nve1
+
 - name: MAKE LEAF-SPINE INTERFACES IP UNNUMBERED TO LOOPBACK0
   nxos_config:
     lines: 
