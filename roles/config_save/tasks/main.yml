@@ -1,0 +1,10 @@
+---
+# tasks file for config_save
+- name: save the running-config to startup-config
+  nxos_config:
+    save_when: always
+    backup: true
+
+- name: Backup the running-config to this server
+  nxos_config:
+    backup: true
