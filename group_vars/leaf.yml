@@ -10,10 +10,10 @@ features:
   - { feature:  vn-segment-vlan-based }
 #  - { feature:  nxapi }
 #  - { feature:  tacacs+ }
-#  - { feature:  scheduler }
+  - { feature:  scheduler }
 #  - { feature:  dhcp }
 #  - { feature:  lldp }
-#  - { feature:  bfd }
+  - { feature:  bfd }
 
 vlan_mappings:
   - { vlan_id: "101", mapped_vni: "900001", description: "Maps vlan 101 to VNI 900001" }

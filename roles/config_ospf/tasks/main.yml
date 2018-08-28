@@ -23,3 +23,9 @@
       - interface {{ item.interface }}
   with_items:
     - "{{ ospf_unnumbered_interfaces }}"
+
+- name: CONFIGURE BIDIRECTIONAL FORWARDING DETECTION (BFD)
+  nxos_config:
+    lines: 
+      - bfd interval 50 min_rx 50 multiplier 3
+      - bfd echo-interface loopback0
