@@ -4,11 +4,13 @@
   gather_facts: no
   roles:
     - config_system
+    - config_leaf_vpc
     - config_leaf_interfaces
     - config_ospf
     - config_leaf_anycast
     - config_leaf_bgp
     - config_leaf_nve
+    - config_save
 
 - hosts: spine
   connection: network_cli
@@ -19,3 +21,4 @@
     - config_ospf
     - config_spine_anycast
     - config_spine_bgp
+    - config_save
