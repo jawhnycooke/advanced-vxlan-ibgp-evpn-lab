@@ -1,7 +1,7 @@
 ---
 role: leaf
 
-hostname: leaf02
+hostname: r1-leaf02
 
 bgp_asn: 65535
 bgp_router_id: 40.1.1.1

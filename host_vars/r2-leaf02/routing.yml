@@ -1,10 +1,10 @@
 ---
 role: leaf
 
-hostname: leaf02
+hostname: r2-leaf02
 
 bgp_asn: 65535
-bgp_router_id: 40.1.1.1
+bgp_router_id: 60.1.1.1
 
 bgp_address_families:
   - { afi: ipv4, safi: unicast }

@@ -1,13 +1,13 @@
 ---
 mgmt_interface:
-  - { interface: "mgmt0", description: "MTGT SWITCH Ethernet2", ipv4: "192.168.122.21/24" }
+  - { interface: "mgmt0", description: "MTGT SWITCH Ethernet2", ipv4: "192.168.122.23/24" }
 
 loopback_interfaces:
   - { interface: "Loopback0", description: "Loopback0 for local VTEP IP, and BGP", ipv4: "50.1.1.1/32" }
 
 vlan_interfaces:
-  - { interface: "Vlan1001", description: "Server facing SVI", ipv4: "4.1.1.1/24", ipv6: "4:1:0:1::1/64", vrf_member: "vxlan-900001" }
-  - { interface: "Vlan1002", description: "Server facing SVI", ipv4: "4.2.2.1/24", ipv6: "4:2:0:1::1/64", vrf_member: "vxlan-900001" }
+  - { interface: "Vlan1001", description: "Server facing SVI", ipv4: "4.1.1.1/24", ipv6: "4:1:0:1::1/64", vrf_member: "vxlan-900001", vrrp_group: "1", vip: "4.1.1.1" }
+  - { interface: "Vlan1002", description: "Server facing SVI", ipv4: "4.2.2.1/24", ipv6: "4:2:0:1::1/64", vrf_member: "vxlan-900001", vrrp_group: "2", vip: "4.2.2.1" }
 
 l2_interfaces:
   - { interface: "Ethernet1/1", description: "Server facing Interfaces", mode: "access", access_vlan: "1002", vrf_member: "" }
