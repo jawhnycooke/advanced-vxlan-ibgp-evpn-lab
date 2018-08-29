@@ -39,6 +39,4 @@
       - advertise-pip
     parents:
       - router bgp {{ bgp_asn }}
-      - neighbor {{ item.neighbor }}
       - address-family l2vpn evpn
-  with_items: "{{ bgp_neighbors }}"
