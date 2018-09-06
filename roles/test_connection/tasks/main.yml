@@ -27,15 +27,15 @@
   nxos_command:
     commands: "{{ item }}"
   with_items: "{{ precheck }}"
-#  register: precheck_output.stdout_lines
+  register: precheck_output
 
 #- set_fact:
 #    precheck_reg: "{{ precheck_output.results }}"
 
-#- name: Debug precheck commands
-#  debug:
-#    var: "{{ precheck_output.stdout_lines }}"
-#  with_items: "{{ precheck_output.results }}"
+- name: SHOW RESULTS
+  debug:
+    var: "{{ item.stdout_lines }}"
+  with_items: "{{ precheck_output.results }}"
 
 #- set_fact: 
 #    show_clock: "{{ precheck_vars.results[0].stdout_lines }}"
