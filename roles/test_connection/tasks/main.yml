@@ -35,9 +35,9 @@
 
 - name: Debug show_clock
   debug:
-    var: "{{ item }}"
+    var: "{{ item.stdout_lines }}"
   with_items: 
-    - "{{precheck_vars.results['all'].stdout_lines}}"
+    - "{{ precheck_vars.results }}"
 
 #- name: Debug show_ip_int
 #  debug:
