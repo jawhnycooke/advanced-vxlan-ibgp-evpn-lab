@@ -29,17 +29,13 @@
   with_items: "{{ precheck }}"
   register: precheck_vars
 
-- set_fact: 
-    show_clock: "{{ precheck_vars.results[0].stdout_lines }}"
-    show_ip_int: "{{ precheck_vars.results[1].stdout_lines }}"
-
-- name: Debug precheck_vars
+- name: Debug show clock
   debug:
-    var: show_ip_int
+    var: "{{ precheck_vars.results[0].stdout_lines }}"
 
-- name: Debug precheck_vars
+- name: Debug show ip int brief
   debug:
-    var: show_clock
+    var: "{{ precheck_vars.results[1].stdout_lines }}"
 
 ###### 
 #- name: Precheck with file
