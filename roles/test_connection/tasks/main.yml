@@ -30,7 +30,7 @@
   register: precheck_vars
 
 - set_fact: 
-    my_output: "{{ precheck_vars.results[*].stdout_lines }}"
+    my_output: "{{ precheck_vars.results[0-1].stdout_lines }}"
 
 - name: Debug precheck_vars
   debug:
