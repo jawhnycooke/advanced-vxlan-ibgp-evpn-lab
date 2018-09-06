@@ -29,13 +29,13 @@
   with_items: "{{ precheck }}"
   register: precheck_output
 
-- set_fact:
-    precheck_reg: "{{ precheck_output.results }}"
+#- set_fact:
+#    precheck_reg: "{{ precheck_output.results }}"
 
 - name: Debug precheck commands
   debug:
-    var: "{{ stdout_lines }}"
-  with_items: "{{ precheck_reg }}"
+    var: "{{ results.item.stdout_lines }}"
+  with_items: "{{ precheck_output }}"
 
 #- set_fact: 
 #    show_clock: "{{ precheck_vars.results[0].stdout_lines }}"
