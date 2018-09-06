@@ -36,7 +36,7 @@
 ###### 
 - name: Precheck with file
   nxos_config:
-    src: /Users/kahuna/Documents/projects/advanced-vxlan-ibgp-evpn-lab/roles/test_connection/files/precheck_file
+    src: /test_connection/files/precheck_file
   register: precheck_file_cmd
 
 - name: Debug precheck_file_cmd
