@@ -29,9 +29,9 @@
   with_items: "{{ precheck }}"
   register: precheck_vars
 
-- name: Debug show clock
+- name: Debug show commands
   debug:
-    msg: "{{ precheck_vars.results[key].stdout_lines }}"
+    msg: "{{ precheck_vars.results[].stdout_lines }}"
 
 #- name: Debug show ip int brief
 #  debug:
