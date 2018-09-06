@@ -20,3 +20,25 @@
 - name: Debug
   debug:
     msg: "{{ show_clock_output.stdout_lines }}"
+
+####### 
+
+- name: Precheck with vars
+  nxos_command:
+    commands: "{{ item }}"
+  with_items: "{{ precheck }}"
+  register: precheck_vars
+
+- name: Debug precheck_vars
+  debug:
+    msg: "{{ precheck_vars.stdout_lines }}"
+
+###### 
+- name: Precheck with file
+  nxos_config:
+    src: precheck_file
+  register: precheck_file_cmd
+
+- name: Debug precheck_file_cmd
+  debug:
+    msg: "{{ precheck_file_cmd.stdout_lines }}"

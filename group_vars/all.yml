@@ -12,3 +12,8 @@ name_servers:
 
 logging:
   - { server: 192.168.122.254, log_level: 6, vrf: management, facility: syslog, source: mgmt0 }
+
+precheck:
+  - show clock
+  - show ip interface brief
+  - show platform
