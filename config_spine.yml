@@ -9,3 +9,4 @@
     - config_ospf
     - config_spine_anycast
     - config_spine_bgp
+    - config_save
