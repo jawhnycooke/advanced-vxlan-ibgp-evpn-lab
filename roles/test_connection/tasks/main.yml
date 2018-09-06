@@ -31,13 +31,13 @@
 
 - name: Debug precheck_vars
   debug:
-    msg: "{{ precheck_vars }}"
+    msg: "{{ precheck_vars.stdout_lines }}"
 
 ###### 
-- name: Precheck with file
-  nxos_config:
-    src: files/precheck_file
-  register: precheck_file_cmd
-
-- debug:
-    msg: "{{ precheck_file_cmd }}"
+#- name: Precheck with file
+#  nxos_config:
+#    src: files/precheck_file
+#  register: precheck_file_cmd
+#
+#- debug:
+#    msg: "{{ precheck_file_cmd }}"
