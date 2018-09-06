@@ -35,7 +35,9 @@
 
 - name: Debug precheck_vars
   debug:
-    var: my_output, show_ip_int
+    var: 
+      - show_clock
+      - show_ip_int
 
 ###### 
 #- name: Precheck with file
