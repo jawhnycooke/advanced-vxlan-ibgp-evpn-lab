@@ -34,8 +34,8 @@
 
 - name: Debug precheck commands
   debug:
-    msg: "{{ item.stdout_lines }}"
-  with_items: "{{ precheck_output.results }}"
+    var: "{{ precheck_output.stdout_lines }}"
+#  with_items: "{{ precheck_output.results }}"
 
 #- set_fact: 
 #    show_clock: "{{ precheck_vars.results[0].stdout_lines }}"
