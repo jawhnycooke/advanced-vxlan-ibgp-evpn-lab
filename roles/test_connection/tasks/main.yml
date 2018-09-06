@@ -31,7 +31,7 @@
 
 - name: Debug precheck_vars
   debug:
-    var: "{{ precheck_vars }}"
+    msg: "{{ precheck_vars }}"
 
 ###### 
 #- name: Precheck with file
