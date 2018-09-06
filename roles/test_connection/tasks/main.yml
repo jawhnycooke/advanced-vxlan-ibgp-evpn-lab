@@ -1,25 +1,25 @@
 ---
 # tasks file for test_connection
 
-- name: Gather facts from NXOS devices using nxos_facts
-  nxos_facts:
-    gather_subset:
-      - all
-      - "!config"
-  tags: facts_only
+#- name: Gather facts from NXOS devices using nxos_facts
+#  nxos_facts:
+#    gather_subset:
+#      - all
+#      - "!config"
+ # tags: facts_only
 
-- name: Display Serial Number of the device gathered from ansible_net_serialnum fact
-  debug:
-    msg: DEVICE {{ansible_net_hostname}}, MODEL {{ansible_net_model}}, SERIAL {{ansible_net_serialnum}}, VERSION {{ansible_net_version}}
+#- name: Display Serial Number of the device gathered from ansible_net_serialnum fact
+#  debug:
+#    msg: DEVICE {{ansible_net_hostname}}, MODEL {{ansible_net_model}}, SERIAL {{ansible_net_serialnum}}, VERSION {{ansible_net_version}}
 
-- name: Gather show clock
-  nxos_command:
-    commands: show clock
-  register: show_clock_output
+#- name: Gather show clock
+ # nxos_command:
+ #   commands: show clock
+#  register: show_clock_output
 
-- name: Debug
-  debug:
-    msg: "{{ show_clock_output.stdout_lines }}"
+#- name: Debug
+#  debug:
+#    msg: "{{ show_clock_output.stdout_lines }}"
 
 ####### 
 
@@ -36,7 +36,7 @@
 ###### 
 - name: Precheck with file
   nxos_config:
-    src: /test_connection/files/precheck_file
+    src: files/precheck_file
   register: precheck_file_cmd
 
 - name: Debug precheck_file_cmd
