@@ -35,11 +35,13 @@
 
 - name: Debug show_clock
   debug:
-    var: show_clock
+    var: {{ item }}
+  with_items: 
+    - "{{precheck_vars.results}}"
 
-- name: Debug show_ip_int
-  debug:
-    var: show_ip_int
+#- name: Debug show_ip_int
+#  debug:
+#    var: show_ip_int
 
 ###### 
 #- name: Precheck with file
