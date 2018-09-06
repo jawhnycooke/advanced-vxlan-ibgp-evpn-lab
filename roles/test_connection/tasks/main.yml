@@ -39,6 +39,5 @@
     src: files/precheck_file
   register: precheck_file_cmd
 
-- name: Debug precheck_file_cmd
-  debug:
-    msg: "{{ precheck_file_cmd.stdout }}"
+- debug:
+  var: "{{ precheck_file_cmd.stdout_lines }}"
