@@ -30,11 +30,14 @@
   register: precheck_vars
 
 - set_fact: 
-    my_output: "{{ precheck_vars.results[0,1].stdout_lines }}"
+    show_clock: "{{ precheck_vars.results[0].stdout_lines }}"
+    show_ip_int: "{{ precheck_vars.results[1].stdout_lines }}"
 
 - name: Debug precheck_vars
   debug:
-    var: my_output
+    var: 
+      - my_output
+      - show_ip_int
 
 ###### 
 #- name: Precheck with file
