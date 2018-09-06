@@ -11,3 +11,12 @@
 - name: Display Serial Number of the device gathered from ansible_net_serialnum fact
   debug:
     msg: DEVICE {{ansible_net_hostname}}, MODEL {{ansible_net_model}}, SERIAL {{ansible_net_serialnum}}, VERSION {{ansible_net_version}}
+
+- name: Gather show clock
+  nxos_command:
+    commands: show clock
+  register: show_clock_output
+
+- name: Debug
+  debug:
+    msg: {{ show_clock_output.stdout_lines }}
