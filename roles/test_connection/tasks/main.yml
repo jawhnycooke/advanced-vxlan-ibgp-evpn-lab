@@ -29,7 +29,7 @@
   with_items: "{{ precheck }}"
   register: precheck_output
 
-  set_fact:
+- set_fact:
     precheck_reg: "{{ precheck_output.results }}"
 
 - name: Debug precheck commands
