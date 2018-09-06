@@ -31,7 +31,7 @@
 
 - name: Debug show commands
   debug:
-    msg: "{{ precheck_vars.results[].stdout_lines }}"
+    msg: "{{ precheck_vars.results[0,1].stdout_lines }}"
 
 #- name: Debug show ip int brief
 #  debug:
