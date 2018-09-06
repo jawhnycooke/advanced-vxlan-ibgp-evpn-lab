@@ -2,4 +2,3 @@
 # vars file for test_connection
 precheck:
   - show clock
-  - show ip interface brief
