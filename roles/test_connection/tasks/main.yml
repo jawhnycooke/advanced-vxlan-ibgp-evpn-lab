@@ -35,7 +35,7 @@
 
 - name: Debug show_clock
   debug:
-    var: {{ item }}
+    var: "{{ item }}"
   with_items: 
     - "{{precheck_vars.results}}"
 
