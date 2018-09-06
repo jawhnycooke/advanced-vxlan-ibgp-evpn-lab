@@ -28,6 +28,7 @@
     commands: "{{ item }}"
   with_items: "{{ precheck }}"
   register: precheck_output
+  no_log: True
 
 #- set_fact:
 #    precheck_reg: "{{ precheck_output.results }}"
