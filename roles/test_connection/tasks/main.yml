@@ -33,7 +33,7 @@
 
 - name: Debug precheck_vars
   debug:
-    msg: "{{ output.stdout_lines }}"
+    msg: "{{ output }}"
 
 ###### 
 #- name: Precheck with file
