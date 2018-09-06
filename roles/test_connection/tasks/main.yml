@@ -41,4 +41,4 @@
 
 - name: Debug precheck_file_cmd
   debug:
-    msg: "{{ precheck_file_cmd.stdout_lines }}"
+    msg: "{{ precheck_file_cmd.stdout }}"
