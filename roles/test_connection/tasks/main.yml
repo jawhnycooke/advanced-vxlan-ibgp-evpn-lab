@@ -40,4 +40,4 @@
   register: precheck_file_cmd
 
 - debug:
-  var: "{{ precheck_file_cmd }}"
+    msg: "{{ precheck_file_cmd }}"
