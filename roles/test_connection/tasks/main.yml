@@ -37,7 +37,7 @@
   debug:
     var: "{{ item }}"
   with_items: 
-    - "{{precheck_vars.['results'].stdout_lines}}"
+    - "{{precheck_vars.results['all'].stdout_lines}}"
 
 #- name: Debug show_ip_int
 #  debug:
