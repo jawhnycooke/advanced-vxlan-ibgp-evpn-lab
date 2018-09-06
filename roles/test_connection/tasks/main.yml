@@ -29,9 +29,11 @@
   with_items: "{{ precheck }}"
   register: precheck_vars
 
+- set_fact: output = precheck_vars.results
+
 - name: Debug precheck_vars
   debug:
-    msg: "{{ precheck_vars.results.[item] }}"
+    msg: "{{ output.stdout_lines }}"
 
 ###### 
 #- name: Precheck with file
