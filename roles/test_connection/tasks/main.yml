@@ -36,7 +36,7 @@
 - name: SHOW RESULTS
   debug:
     var: "{{ item.stdout_lines }}"
-  with_items: "{{ precheck_output.results }}"
+  with_items: "{{ precheck_output.results[0] }}"
 
 #- set_fact: 
 #    show_clock: "{{ precheck_vars.results[0].stdout_lines }}"
