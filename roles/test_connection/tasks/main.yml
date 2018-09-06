@@ -34,7 +34,7 @@
 
 - name: Debug precheck_vars
   debug:
-    var: my_output
+    var: my_output.stdout_lines
 
 ###### 
 #- name: Precheck with file
